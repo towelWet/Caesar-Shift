@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Caesar Cipher Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Caesar Cipher Generator</h1>
+  <p>Enter your text and choose the shift amount and direction to generate a Caesar cipher.</p>
+
+  <label for="shift">Shift Amount:</label>
+  <input type="number" id="shift" value="0" min="0" max="25" />
+
+  <br><br>
+
+  <label for="shiftDirection">Shift Direction:</label>
+  <select id="shiftDirection">
+    <option value="up">Shift Up</option>
+    <option value="down">Shift Down</option>
+  </select>
+
+  <br><br>
+
+  <label for="inputText">Input Text:</label>
+  <textarea id="inputText" rows="5" cols="50"></textarea>
+
+  <br><br>
+
+  <button onclick="generateCipher()">Generate Cipher</button>
+
+  <br><br>
+
+  <label for="outputText">Output Text:</label>
+  <textarea id="outputText" rows="5" cols="50" readonly></textarea>
+
+  <script>
+    function generateCipher() {
+      const shift = parseInt(document.getElementById("shift").value, 10);
+      const shiftDirection = document.getElementById("shiftDirection").value;
+      const inputText = document.getElementById("inputText").value;
+      let outputText = "";
+
+      const effectiveShift = (shiftDirection === "down") ? -shift : shift;
+
+      for (let i = 0; i < inputText.length; i++) {
+        let charCode = inputText.charCodeAt(i);
+
+        if (charCode >= 65 && charCode <= 90) {
+          outputText += String.fromCharCode(((charCode - 65 + effectiveShift) % 26 + 26) % 26 + 65);
+        } else if (charCode >= 97 && charCode <= 122) {
+          outputText += String.fromCharCode(((charCode - 97 + effectiveShift) % 26 + 26) % 26 + 97);
+        } else {
+          outputText += inputText.charAt(i);
+        }
+      }
+
+      document.getElementById("outputText").value = outputText;
+    }
+  </script>
+</body>
+</html>
